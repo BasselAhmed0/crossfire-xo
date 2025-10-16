@@ -1,0 +1,4 @@
+curl -X POST http://localhost:8080/players \
+  -u user:user \
+  -H "Content-Type: application/json" \
+  -d '{"name":"BenSsa"}'

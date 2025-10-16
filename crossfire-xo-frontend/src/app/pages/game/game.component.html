@@ -1,0 +1,109 @@
+<!-- src/app/pages/game/game.component.html -->
+
+<div class="game-container">
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Game Content -->
+  <ng-container *ngIf="game as g">
+    <div *ngIf="!loading" class="game-content">
+
+      <!-- Header -->
+      <div class="game-header">
+        <h1>🎮 CROSSFIRE XO</h1>
+        <div class="player-info">
+          <div class="player player-x">
+            <h3>{{ g.player1.name || 'Player 1' }} (X)</h3>
+            <p>Wins: {{ g.player1.wins ?? 0 }}</p>
+          </div>
+          <div class="vs">VS</div>
+          <div class="player player-o">
+            <h3>{{ g.player2?.name || 'AI' }} (O)</h3>
+            <p>Wins: {{ g.player2?.wins ?? 0 }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Status -->
+      <div class="game-status">
+        <div class="status-bar">
+          <span class="turn-info">
+            Turn: {{ g.turnNumber }} |
+            Current Player: <strong [class.active-player]="true">{{ g.currentPlayer || '-' }}</strong>
+          </span>
+          <span class="crosshair-info">
+            🎯 Crosshair: ({{ g.crosshairRow ?? '-' }}, {{ g.crosshairCol ?? '-' }})
+          </span>
+        </div>
+
+        <!-- Message Display -->
+        <div *ngIf="message" class="message" [class.win-message]="g.status !== GameStatus.ONGOING">
+          {{ message }}
+        </div>
+      </div>
+
+      <!-- Game Board -->
+      <div class="board-container">
+        <div class="board">
+          <!-- Column Headers -->
+          <div class="board-header">
+            <div class="corner"></div>
+            <div class="col-label" *ngFor="let col of [0,1,2,3]">{{ col }}</div>
+          </div>
+
+          <!-- Board Rows -->
+          <div class="board-row" *ngFor="let row of [0,1,2,3]; let i = index">
+            <!-- Row Label -->
+            <div class="row-label">{{ row }}</div>
+
+            <!-- Cells -->
+            <div *ngFor="let col of [0,1,2,3]; let j = index" [class]="getCellClass(row, col)"
+              (click)="makeMove(row, col)" [attr.data-row]="row" [attr.data-col]="col">
+
+              <!-- Cell Content -->
+              <span class="cell-value" *ngIf="board?.[row]?.[col]">
+                {{ board[row][col] }}
+              </span>
+
+              <!-- Crosshair Indicator -->
+              <span class="crosshair-marker" *ngIf="isCellBlocked(row, col)">
+                🔒
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crosshair Legend -->
+        <div class="legend">
+          <div class="legend-item">
+            <span class="legend-icon blocked">🔒</span>
+            <span>Blocked by Crosshair</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-icon x">X</span>
+            <span>Player 1</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-icon o">O</span>
+            <span>Player 2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button class="btn btn-primary" (click)="newGame()">New Game</button>
+        <button class="btn btn-secondary" (click)="quit()">Quit</button>
+      </div>
+
+    </div>
+  </ng-container>
+</div>
