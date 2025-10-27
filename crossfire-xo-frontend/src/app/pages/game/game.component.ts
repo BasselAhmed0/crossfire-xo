@@ -36,6 +36,10 @@ export class GameComponent implements OnInit {
     });
   }
 
+  trackByIndex(index: number): number {
+    return index;
+  }
+
   loadGame(): void {
     this.loading = true;
     this.gameService.getGameById(this.gameId).subscribe({
@@ -71,29 +75,6 @@ export class GameComponent implements OnInit {
       setTimeout(() => (this.message = ''), 2000);
       return;
     }
-
-    const move: MoveRequest = { row, col };
-    this.loading = true;
-
-    this.gameService.makeMove(this.gameId, move).subscribe({
-      next: (response: any) => {
-        this.board = response.gameState.board;
-        this.game!.currentPlayer = response.gameState.currentPlayer;
-        this.game!.turnNumber = response.gameState.turnNumber;
-        this.game!.crosshairRow = response.gameState.crosshairRow;
-        this.game!.crosshairCol = response.gameState.crosshairCol;
-        this.game!.status = response.gameState.status;
-        this.game!.winner = response.gameState.winner;
-        this.message = response.message;
-        this.loading = false;
-        this.checkGameStatus();
-      },
-      error: (err: any) => {
-        this.error = err.error?.message || 'Invalid move';
-        this.loading = false;
-        setTimeout(() => (this.error = ''), 3000);
-      },
-    });
   }
 
   isCellBlocked(row: number, col: number): boolean {

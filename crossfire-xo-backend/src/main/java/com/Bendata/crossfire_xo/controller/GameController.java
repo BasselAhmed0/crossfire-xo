@@ -23,6 +23,7 @@ public class GameController {
 
     private final GameService gameService;
     private final GameLogicService gameLogicService;
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GameController.class);
 
     @GetMapping
     public ResponseEntity<List<Game>> getAllGames() {

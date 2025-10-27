@@ -84,16 +84,17 @@ public class GlobalExceptionHandler {
      * Handle IllegalArgumentException
      * Returns 400 BAD REQUEST
      */
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgument(
-            IllegalArgumentException ex,
+    @ExceptionHandler({IllegalArgumentException.class, NumberFormatException.class})
+    public ResponseEntity<Map<String, Object>> handleBadRequest(
+            Exception ex,
             WebRequest request) {
 
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("timestamp", LocalDateTime.now());
         errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
         errorResponse.put("error", "Bad Request");
-        errorResponse.put("message", ex.getMessage());
+        errorResponse.put("message", ex instanceof NumberFormatException ? 
+            "Invalid number format. Please provide a valid numeric ID." : ex.getMessage());
         errorResponse.put("path", request.getDescription(false).replace("uri=", ""));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

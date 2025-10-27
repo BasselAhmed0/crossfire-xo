@@ -59,14 +59,15 @@
             <div class="col-label" *ngFor="let col of [0,1,2,3]">{{ col }}</div>
           </div>
 
-          <!-- Board Rows -->
-          <div class="board-row" *ngFor="let row of [0,1,2,3]; let i = index">
+          <div class="board-row" *ngFor="let row of [0,1,2,3]; let i = index; trackBy: trackByIndex">
+
             <!-- Row Label -->
             <div class="row-label">{{ row }}</div>
 
             <!-- Cells -->
-            <div *ngFor="let col of [0,1,2,3]; let j = index" [class]="getCellClass(row, col)"
-              (click)="makeMove(row, col)" [attr.data-row]="row" [attr.data-col]="col">
+            <div *ngFor="let col of [0,1,2,3]; let j = index; trackBy: trackByIndex" [class]="getCellClass(row, col)"
+              (click)="makeMove(row, col); $event.preventDefault(); $event.stopPropagation();" [attr.data-row]="row"
+              [attr.data-col]="col">
 
               <!-- Cell Content -->
               <span class="cell-value" *ngIf="board?.[row]?.[col]">
@@ -75,10 +76,10 @@
 
               <!-- Crosshair Indicator -->
               <span class="crosshair-marker" *ngIf="isCellBlocked(row, col)">
-                🔒
               </span>
             </div>
           </div>
+
         </div>
 
         <!-- Crosshair Legend -->
@@ -100,10 +101,9 @@
 
       <!-- Action Buttons -->
       <div class="actions">
-        <button class="btn btn-primary" (click)="newGame()">New Game</button>
-        <button class="btn btn-secondary" (click)="quit()">Quit</button>
+        <button type="button" class="btn btn-primary" (click)="newGame()">New Game</button>
+        <button type="button" class="btn btn-secondary" (click)="quit()">Quit</button>
       </div>
-
     </div>
   </ng-container>
 </div>

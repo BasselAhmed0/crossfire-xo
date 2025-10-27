@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Game } from '../models/game.model';
+import { Game, GameCreateRequest } from '../models/game.model';
 import { MoveRequest, GameStateResponse } from '../models/move.model';
 import { GameResponse } from '../models/game-response.model';
 import { environment } from '../../enviroment/enviroment';
@@ -25,10 +25,6 @@ export class GameService {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-
-  private apiUrl = `${environment.apiUrl}/games`;
-
-  constructor(private http: HttpClient) {}
 
   // Get all games
   getAllGames(): Observable<Game[]> {

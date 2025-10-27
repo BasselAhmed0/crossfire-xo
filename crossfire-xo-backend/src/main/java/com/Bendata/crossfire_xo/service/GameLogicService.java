@@ -101,7 +101,11 @@ public class GameLogicService {
 
     private void updateCrosshairPosition(Game game) {
         // Crosshair moves diagonally: (0,0) -> (1,1) -> (2,2) -> (3,3) -> (0,0)
-        int position = (game.getTurnNumber() - 1) % 4;
+        // int position = (game.getTurnNumber() - 1) % 4;
+        // game.setCrosshairRow(position);
+        // game.setCrosshairCol(position);
+
+        int position = (game.getTurnNumber() - 1) / 2 % 4;
         game.setCrosshairRow(position);
         game.setCrosshairCol(position);
     }

@@ -1,1 +1,65 @@
-<p>home works!</p>
+<!-- src/app/pages/home/home.component.html -->
+
+<div class="home-container">
+  <div class="welcome-card">
+    <h1 class="title">🎮 CROSSFIRE XO 🎮</h1>
+    <p class="subtitle">The Ultimate 4x4 Tic-Tac-Toe with a Twist!</p>
+
+    <div class="game-rules">
+      <h3>🎯 How to Play:</h3>
+      <ul>
+        <li>4x4 board - Get <strong>4 in a row</strong> to win!</li>
+        <li>⚡ <strong>Crosshair</strong> moves diagonally each turn</li>
+        <li>🔒 Cannot play on <strong>blocked row/column</strong></li>
+        <li>🎲 Crosshair position: (0,0) → (1,1) → (2,2) → (3,3)</li>
+      </ul>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <!-- Player Input Form -->
+    <div class="player-form">
+      <div class="form-group">
+        <label for="player1">Player 1 Name (X):</label>
+        <input type="text" id="player1" [(ngModel)]="player1Name" placeholder="Enter Player 1 name" class="form-control"
+          [disabled]="loading">
+      </div>
+
+      <div class="form-group">
+        <label for="player2">Player 2 Name (O):</label>
+        <input type="text" id="player2" [(ngModel)]="player2Name" placeholder="Enter Player 2 name" class="form-control"
+          [disabled]="loading">
+      </div>
+
+      <button type="button" class="btn btn-start" (click)="startGame(); $event.preventDefault();"
+        [disabled]="loading || !player1Name.trim() || !player2Name.trim()">
+        <span *ngIf="!loading">🚀 Start Game</span>
+        <span *ngIf="loading">
+          <span class="spinner-small"></span> Creating Game...
+        </span>
+      </button>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+      <div class="feature">
+        <span class="feature-icon">⚡</span>
+        <h4>Dynamic Gameplay</h4>
+        <p>Moving crosshair adds strategy</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🎯</span>
+        <h4>Think Ahead</h4>
+        <p>Plan your moves carefully</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🏆</span>
+        <h4>Track Stats</h4>
+        <p>Wins, losses, and draws</p>
+      </div>
+    </div>
+  </div>
+</div>
