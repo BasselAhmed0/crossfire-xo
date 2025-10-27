@@ -4,12 +4,18 @@ import com.Bendata.crossfire_xo.model.Game;
 import com.Bendata.crossfire_xo.model.GameStatus;
 import com.Bendata.crossfire_xo.model.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<Game> findById(Long id);
 
     List<Game> findByStatus(GameStatus status);
 

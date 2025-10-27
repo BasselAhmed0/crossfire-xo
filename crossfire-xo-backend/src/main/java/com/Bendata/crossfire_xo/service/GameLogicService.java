@@ -12,6 +12,7 @@ import com.Bendata.crossfire_xo.util.GameValidator;
 import com.Bendata.crossfire_xo.util.WinChecker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class GameLogicService {
     private final WinChecker winChecker;
 
     @Transactional
+    @Synchronized
     public MoveResponse makeMove(Long gameId, MoveRequest moveRequest) throws JsonProcessingException {
         Game game = gameService.getGameById(gameId);
 
