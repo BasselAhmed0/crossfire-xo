@@ -69,12 +69,32 @@ export class GameComponent implements OnInit {
       return;
     }
 
-    // Check if cell is occupied
-    if (this.board[row][col]) {
-      this.message = 'This cell is already occupied!';
-      setTimeout(() => (this.message = ''), 2000);
-      return;
-    }
+    const move: MoveRequest = { row, col };
+
+    this.gameService.makeMove(this.gameId, move).subscribe({
+      next: (response) => {
+        if (this.game) {
+          // Update the game state from the response
+          this.game.boardState = JSON.stringify(response.gameState.board);
+          this.game.currentPlayer = response.gameState.currentPlayer;
+          this.game.turnNumber = response.gameState.turnNumber;
+          this.game.crosshairRow = response.gameState.crosshairRow;
+          this.game.crosshairCol = response.gameState.crosshairCol;
+          this.game.status = response.gameState.status as GameStatus;
+          this.game.winner = response.gameState.winner;
+
+          // Update the local board representation
+          this.board = response.gameState.board;
+
+          // Check for win/draw messages
+          this.checkGameStatus();
+        }
+      },
+      error: (err) => {
+        this.error = err.error.message || 'Failed to make move';
+        console.error(err);
+      },
+    });
   }
 
   isCellBlocked(row: number, col: number): boolean {

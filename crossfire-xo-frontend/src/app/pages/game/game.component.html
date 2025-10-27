@@ -66,7 +66,7 @@
 
             <!-- Cells -->
             <div *ngFor="let col of [0,1,2,3]; let j = index; trackBy: trackByIndex" [class]="getCellClass(row, col)"
-              (click)="makeMove(row, col); $event.preventDefault(); $event.stopPropagation();" [attr.data-row]="row"
+              (click)="makeMove(row, col)" [attr.data-row]="row"
               [attr.data-col]="col">
 
               <!-- Cell Content -->
