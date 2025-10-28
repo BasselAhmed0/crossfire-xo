@@ -25,6 +25,7 @@ public class GameLogicService {
     private final MoveRepository moveRepository;
     private final GameValidator validator;
     private final WinChecker winChecker;
+    private final DeadlockDetector deadlockDetector;
 
     @Transactional
     @Synchronized
@@ -51,23 +52,34 @@ public class GameLogicService {
         // Save move to history
         saveMove(game, row, col);
 
+        // Switch player, increment turn, and update crosshair for the next turn
+        switchPlayer(game);
+        game.setTurnNumber(game.getTurnNumber() + 1);
+        updateCrosshairPosition(game);
+
         // Check for winner
         String winner = winChecker.checkWinner(board);
 
+        String message = null;
         if (winner != null) {
             // We have a winner!
             game.setStatus(winner.equals("X") ? GameStatus.X_WON : GameStatus.O_WON);
             game.setWinner(winner);
             updatePlayerStats(game, winner);
-        } else if (winChecker.isBoardFull(board)) {
+            message = winner + " wins!";
+        } else if (winChecker.isBoardFull(game.getTurnNumber())) {
             // Draw
             game.setStatus(GameStatus.DRAW);
             updatePlayerStatsForDraw(game);
+            message = "Draw - Board is full.";
+        } else if (deadlockDetector.isDeadlocked(board, game.getCrosshairRow(), game.getCrosshairCol())) {
+            // Deadlock Draw
+            game.setStatus(GameStatus.DRAW);
+            updatePlayerStatsForDraw(game);
+            message = "Draw - No valid moves remaining!";
         } else {
             // Continue game
-            switchPlayer(game);
-            game.setTurnNumber(game.getTurnNumber() + 1);
-            updateCrosshairPosition(game);
+            message = "Move successful";
         }
 
         // Save updated board
@@ -75,11 +87,11 @@ public class GameLogicService {
         gameService.saveGame(game);
 
         // Build response
-        GameResponse gameResponse = buildGameResponse(game, board);
+        GameResponse gameResponse = buildGameResponse(game, board, message);
 
         return MoveResponse.builder()
                 .success(true)
-                .message(winner != null ? winner + " wins!" : "Move successful")
+                .message(message)
                 .gameState(gameResponse)
                 .build();
     }
@@ -147,7 +159,7 @@ public class GameLogicService {
         }
     }
 
-    private GameResponse buildGameResponse(Game game, String[][] board) {
+    private GameResponse buildGameResponse(Game game, String[][] board, String message) {
         return GameResponse.builder()
                 .gameId(game.getId())
                 .board(board)
@@ -157,6 +169,7 @@ public class GameLogicService {
                 .crosshairCol(game.getCrosshairCol())
                 .status(game.getStatus())
                 .winner(game.getWinner())
+                .message(message)
                 .build();
     }
 }

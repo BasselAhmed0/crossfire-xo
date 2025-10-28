@@ -1,0 +1,1 @@
+player choose where crosshair will be on his turn

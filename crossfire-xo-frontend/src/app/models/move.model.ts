@@ -5,7 +5,7 @@ export interface MoveRequest {
   col: number;
 }
 
-export interface GameStateResponse {
+export interface GameState {
   board: (string | null)[][];
   currentPlayer: 'X' | 'O';
   turnNumber: number;
@@ -13,4 +13,10 @@ export interface GameStateResponse {
   crosshairCol: number | null;
   status: string;
   winner?: 'X' | 'O' | null;
+}
+
+export interface MoveResponse {
+  success: boolean;
+  message: string;
+  gameState: GameState;
 }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Game, GameStatus, PlayerSummary } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
-import { MoveRequest } from '../../models/move.model';
+import { MoveRequest, MoveResponse } from '../../models/move.model';
 
 @Component({
   selector: 'app-game',
@@ -82,6 +82,7 @@ export class GameComponent implements OnInit {
           this.game.crosshairCol = response.gameState.crosshairCol;
           this.game.status = response.gameState.status as GameStatus;
           this.game.winner = response.gameState.winner;
+          this.game.message = response.message;
 
           // Update the local board representation
           this.board = response.gameState.board;
@@ -125,7 +126,7 @@ export class GameComponent implements OnInit {
     } else if (this.game.status === GameStatus.O_WON) {
       this.message = `🎉 Player O (${this.game.player2?.name || 'AI'}) wins!`;
     } else if (this.game.status === GameStatus.DRAW) {
-      this.message = "It's a draw!";
+      this.message = this.game.message || "It's a draw!";
     }
   }
 

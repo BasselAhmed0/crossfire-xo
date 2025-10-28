@@ -73,14 +73,7 @@ public class WinChecker {
         return null;
     }
 
-    public boolean isBoardFull(String[][] board) {
-        for (int row = 0; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
-                if (board[row][col] == null || board[row][col].isEmpty()) {
-                    return false;
-                }
-            }
-        }
-        return true;
+    public boolean isBoardFull(int turnNumber) {
+        return turnNumber >= BOARD_SIZE * BOARD_SIZE;
     }
 }

@@ -27,6 +27,7 @@ export interface Game {
   winner?: 'X' | 'O' | null;
   player1: PlayerSummary;
   player2?: PlayerSummary | null;
+  message?: string;
 }
 // src/app/models/game.model.ts
 

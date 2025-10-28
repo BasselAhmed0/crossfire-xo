@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Game, GameCreateRequest } from '../models/game.model';
-import { MoveRequest, GameStateResponse } from '../models/move.model';
-import { GameResponse } from '../models/game-response.model';
+import { MoveRequest, MoveResponse } from '../models/move.model';
 import { environment } from '../../enviroment/enviroment';
 
 @Injectable({
@@ -20,8 +19,8 @@ export class GameService {
     return this.http.get<Game>(`${this.apiUrl}/${id}`);
   }
 
-  makeMove(id: number, move: MoveRequest): Observable<GameResponse> {
-    return this.http.post<GameResponse>(`${this.apiUrl}/${id}/move`, move, {
+  makeMove(id: number, move: MoveRequest): Observable<MoveResponse> {
+    return this.http.post<MoveResponse>(`${this.apiUrl}/${id}/move`, move, {
       headers: { 'Content-Type': 'application/json' },
     });
   }
