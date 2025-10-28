@@ -53,6 +53,12 @@
       <!-- Game Board -->
       <div class="board-container">
         <div class="board">
+          <!-- Draw Message Overlay -->
+          <div *ngIf="g.status === GameStatus.DRAW" class="draw-overlay">
+            <div class="draw-message-on-board">
+              {{ g.message }}
+            </div>
+          </div>
           <!-- Column Headers -->
           <div class="board-header">
             <div class="corner"></div>

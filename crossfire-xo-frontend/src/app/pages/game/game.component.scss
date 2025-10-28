@@ -34,13 +34,13 @@
 /* Header */
 .game-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px; /* Reduced from 30px */
 }
 
 .game-header h1 {
   color: #2c3e50;
-  margin-bottom: 20px;
-  font-size: 2.5em;
+  margin-bottom: 10px; /* Reduced from 20px */
+  font-size: 2em; /* Reduced from 2.5em */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -48,13 +48,13 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  gap: 20px;
+  gap: 10px; /* Reduced from 20px */
 }
 
 .player {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 15px 30px;
+  padding: 10px 15px; /* Reduced from 15px 30px */
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex: 1;
@@ -69,8 +69,8 @@
 }
 
 .player h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.5em;
+  margin: 0 0 5px 0; /* Reduced from 10px */
+  font-size: 1.2em; /* Reduced from 1.5em */
 }
 
 .player p {
@@ -79,7 +79,7 @@
 }
 
 .vs {
-  font-size: 2em;
+  font-size: 1.5em; /* Reduced from 2em */
   font-weight: bold;
   color: #e74c3c;
 }
@@ -87,31 +87,31 @@
 /* Game Status */
 .game-status {
   background: #ecf0f1;
-  padding: 15px;
+  padding: 10px; /* Reduced from 15px */
   border-radius: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px; /* Reduced from 20px */
 }
 
 .status-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px; /* Reduced from 10px */
 }
 
 .turn-info {
-  font-size: 1.1em;
+  font-size: 1em; /* Reduced from 1.1em */
 }
 
 .active-player {
   color: #e74c3c;
-  font-size: 1.3em;
+  font-size: 1.1em; /* Reduced from 1.3em */
 }
 
 .crosshair-info {
   background: #e74c3c;
   color: white;
-  padding: 5px 15px;
+  padding: 3px 10px; /* Reduced from 5px 15px */
   border-radius: 5px;
   font-weight: bold;
 }
@@ -119,10 +119,10 @@
 .message {
   background: #3498db;
   color: white;
-  padding: 10px;
+  padding: 8px; /* Reduced from 10px */
   border-radius: 5px;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1em; /* Reduced from 1.2em */
   animation: pulse 0.5s;
 }
 
@@ -146,6 +146,7 @@
 .board-container {
   margin: 30px 0;
   text-align: center;
+  position: relative; /* Added for absolute positioning of overlay */
 }
 
 .board {
@@ -154,6 +155,42 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.draw-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+  z-index: 10; /* Ensure it's above the board */
+}
+
+.draw-message-on-board {
+  background: #f39c12; /* Orange color for draw */
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
+  animation: pop-in-draw 0.5s ease-out forwards;
+}
+
+@keyframes pop-in-draw {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .board-header {
